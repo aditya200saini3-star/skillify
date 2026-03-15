@@ -318,6 +318,13 @@
                 document.getElementById(errorId).textContent = '';
             }
         });
+
+        // Handle browser back button (bfcache)
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted) {
+                hideLoading();
+            }
+        });
     </script>
 </body>
 
