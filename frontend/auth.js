@@ -1,4 +1,4 @@
-const API_BASE = 'https://skillify-npa4.onrender.com'; // Update this URL after deploying your backend to Render
+const API_BASE = 'https://skillify-backend-b442.onrender.com'; // Update this URL after deploying your backend to Render
 const TOKEN_KEY = 'skillify_token';
 const USER_KEY = 'skillify_user';
 
