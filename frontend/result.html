@@ -86,9 +86,16 @@
             const apiDataStr = localStorage.getItem('recommendData');
             if (apiDataStr) {
                 const apiData = JSON.parse(apiDataStr);
-                ({ skill, interest, goal, regular, ai, stats } = apiData);
+                // API sends stats object containing skill/interest/goal
+                regular = apiData.regular || [];
+                ai = apiData.ai || [];
+                stats = apiData.stats || {};
+                skill = apiData.skill || stats.skill;
+                interest = apiData.interest || stats.interest;
+                goal = apiData.goal || stats.goal;
+
                 document.getElementById('summaryText').innerHTML =
-                    `<strong>Backend API</strong> | Skill: <span style="color: #4cc9f0">${skill?.toUpperCase()}</span> | Interest: <span style="color: #ff9d00">${interest}</span> | Goal: <span style="color: #1a7a68">${goal}</span>`;
+                    `<strong>Backend API</strong> | Skill: <span style="color: #4cc9f0">${skill?.toUpperCase() || 'N/A'}</span> | Interest: <span style="color: #ff9d00">${interest || 'N/A'}</span> | Goal: <span style="color: #1a7a68">${goal || 'N/A'}</span>`;
             } else {
                 // Priority 2: URL fallback
                 const params = new URLSearchParams(window.location.search);
