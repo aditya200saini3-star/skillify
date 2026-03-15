@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skillify | Login & Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Login or Sign up to get customized recommendations">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="indexcss.css">
+    <link rel="stylesheet" href="logincss.css">
+    
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading Skillify...</div>
+    </div>
+
+    <!-- Removed NAVBAR for cleaner login view -->
+
+    <!-- Login/Signup Container -->
+    <div class="auth-wrapper">
+        <div class="auth-container" id="authContainer">
+            <!-- Login Form -->
+            <div class="form-container sign-in-container">
+                <form id="loginForm">
+                    <h1 class="auth-title">Sign In</h1>
+                    <div class="social-container">
+                        <a href="#" class="social" title="Google"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your account</span>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email" required />
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password" required />
+                    </div>
+                    <a href="#" class="forgot-pass">Forgot your password?</a>
+                    <button type="submit" class="btn auth-btn">Sign In</button>
+                    <p class="error-msg" id="loginError"></p>
+                </form>
+            </div>
+
+            <!-- Sign Up Form -->
+            <div class="form-container sign-up-container">
+                <form id="signupForm">
+                    <h1 class="auth-title">Create Account</h1>
+                    <div class="social-container">
+                        <a href="#" class="social" title="Google"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="signupName" placeholder="Name" required />
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="signupEmail" placeholder="Email" required />
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="signupPassword" placeholder="Password" required minlength="6" />
+                    </div>
+                    <button type="submit" class="btn auth-btn">Sign Up</button>
+                    <p class="error-msg" id="signupError"></p>
+                </form>
+            </div>
+
+            <!-- Overlay Container for sliding effect -->
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To keep connected with us please login with your personal info</p>
+                        <button class="btn ghost-btn" type="button" id="signInBtn">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, Learner!</h1>
+                        <p>Enter your personal details and start your learning journey with us</p>
+                        <button class="btn ghost-btn" type="button" id="signUpBtn">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="auth.js"></script>
+    <script>
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 500);
+        });
+
+        // UI Logic for panel sliding
+        const signUpButton = document.getElementById('signUpBtn');
+        const signInButton = document.getElementById('signInBtn');
+        const container = document.getElementById('authContainer');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        // Authentication form handling
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+
+            const result = await auth.signup(name, email, password);
+            if (result.success) {
+                // Auto login and redirect
+                await auth.login(email, password);
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('signupError').innerText = result.message;
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            const result = await auth.login(email, password);
+            if (result.success) {
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('loginError').innerText = result.message;
+            }
+        });
+
+        // Redirect if already logged in
+        if (auth.getCurrentUser()) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

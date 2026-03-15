@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommended Courses | Skillify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your personalized course recommendations based on skill level, interests, and goals">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="resultcss.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 1300px; background: rgba(8, 28, 48, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; backdrop-filter: blur(20px);">
+        <h2 style="margin: 0; font-size: 24px;"><i class="fas fa-graduation-cap"></i> Skillify</h2>
+        <ul style="list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; align-items: center;">
+            <li><a href="index.html" style="color: white; text-decoration: none; font-weight: 600;"><i class="fas fa-home"></i> Home</a></li>
+        </ul>
+    </nav>
+    <div class="container" style="padding-top: 100px;">
+        <h1>🎯 Your Personalized Course Recommendations</h1>
+        
+        <div class="summary" id="summaryText">Loading recommendations...</div>
+        
+        <!-- Results Statistics -->
+        <div class="results-stats" id="resultsStats"></div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">Analyzing your preferences...</div>
+
+        <!-- Regular Recommendations -->
+        <div class="cards" id="resultCards"></div>
+
+        <!-- AI Section -->
+        <div class="ai-section">
+            <h2>🤖 AI-Powered Recommendations</h2>
+            <div class="cards" id="aiResultCards"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="#" class="action-btn save" id="saveResults">
+                <i class="fas fa-bookmark"></i> Save Results
+            </a>
+            <a href="#" class="action-btn share" id="shareResults">
+                <i class="fas fa-share-alt"></i> Share Results
+            </a>
+            <a href="recommendation.html" class="action-btn">
+                <i class="fas fa-redo"></i> Try Again
+            </a>
+        </div>
+
+        <div class="center">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Confirmation Toast -->
+    <div class="toast" id="confirmationToast">Results saved!</div>
+
+    <!-- Backend API + Axios + Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Enhanced result page with backend support
+        async function loadResults() {
+            document.getElementById('loadingState').style.display = 'block';
+            
+            let skill, interest, goal, regular = [], ai = [], stats = {};
+            
+            // Priority 1: Backend data from localStorage
+            const apiDataStr = localStorage.getItem('recommendData');
+            if (apiDataStr) {
+                const apiData = JSON.parse(apiDataStr);
+                ({ skill, interest, goal, regular, ai, stats } = apiData);
+                document.getElementById('summaryText').innerHTML = 
+                    `<strong>Backend API</strong> | Skill: <span style="color: #4cc9f0">${skill?.toUpperCase()}</span> | Interest: <span style="color: #ff9d00">${interest}</span> | Goal: <span style="color: #1a7a68">${goal}</span>`;
+            } else {
+                // Priority 2: URL fallback
+                const params = new URLSearchParams(window.location.search);
+                skill = params.get('skill');
+                interest = params.get('interest');
+                goal = params.get('goal');
+                document.getElementById('summaryText').innerHTML = 
+                    '<strong>Fallback Mode</strong> | Backend offline - install Node.js & npm run dev';
+            }
+            
+            // Hide loading
+            document.getElementById('loadingState').style.display = 'none';
+            
+            // Display regular courses
+            const resultCards = document.getElementById('resultCards');
+            regular.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h3>${course.title}</h3>
+                    <p>${course.description || 'Comprehensive course'}</p>
+                    <div class="course-details">
+                        <div><i class="fas fa-clock"></i> ${course.duration || 'Varies'}</div>
+                        <div><i class="fas fa-star"></i> ${course.rating ? course.rating.toFixed(1) : 'N/A'}/5</div>
+                        <div><i class="fas fa-building"></i> ${course.provider || 'Various'}</div>
+                    </div>
+                    <span class="tag">${course.level || skill}</span>
+                    <span class="tag">${course.category || interest}</span>
+                    <span class="tag">${course.goal || goal}</span>
+                    <a href="${course.link || '#'}" target="_blank" class="action-btn">
+                        <i class="fas fa-external-link-alt"></i> View Course
+                    </a>`;
+                resultCards.appendChild(card);
+            });
+            
+            // Display AI courses
+            const aiResultCards = document.getElementById('aiResultCards');
+            ai.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'card ai-card';
+                card.innerHTML = `
+                    <h3>${course.title}</h3>
+                    <p>${course.description || 'AI recommended course'}</p>
+                    <div class="course-details">
+                        <div><i class="fas fa-clock"></i> ${course.duration || 'Varies'}</div>
+                        <div><i class="fas fa-star"></i> ${course.rating ? course.rating.toFixed(1) : 'N/A'}/5</div>
+                        <div><i class="fas fa-building"></i> ${course.provider || 'Various'}</div>
+                    </div>
+                    <span class="score-tag">AI Score: ${course.score || 'N/A'}%</span>
+                    <a href="${course.link || '#'}" target="_blank" class="action-btn">
+                        <i class="fas fa-external-link-alt"></i> View Course
+                    </a>`;
+                aiResultCards.appendChild(card);
+            });
+            
+            // Update stats
+            const statsEl = document.getElementById('resultsStats');
+            statsEl.innerHTML = `
+                <div class="stat-box">
+                    <span class="number">${regular.length}</span>
+                    <span class="label">Regular Matches</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">${ai.length}</span>
+                    <span class="label">AI Matches</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">${skill?.toUpperCase()}</span>
+                    <span class="label">Skill Level</span>
+                </div>
+                <div class="stat-box">
+                    <span class="number">${goal}</span>
+                    <span class="label">Goal</span>
+                </div>`;
+        }
+        
+        // Save/Share (unchanged functionality)
+        document.getElementById('saveResults').onclick = () => {
+            localStorage.setItem('skillifySavedResults', JSON.stringify({
+                skill, interest, goal, timestamp: new Date().toISOString()
+            }));
+            document.getElementById('confirmationToast').style.display = 'block';
+            setTimeout(() => document.getElementById('confirmationToast').style.display = 'none', 3000);
+        };
+        
+        document.getElementById('shareResults').onclick = async () => {
+            const text = `Skillify Recommendations\nSkill: ${skill}\nInterest: ${interest}\nGoal: ${goal}`;
+            if (navigator.share) {
+                await navigator.share({ title: 'My Skillify Results', text });
+            } else if (navigator.clipboard) {
+                await navigator.clipboard.writeText(text);
+                document.getElementById('confirmationToast').textContent = 'Copied!';
+                document.getElementById('confirmationToast').style.display = 'block';
+                setTimeout(() => document.getElementById('confirmationToast').style.display = 'none', 3000);
+            }
+        };
+        
+        // Init
+        auth.updateNavbar();
+        loadResults();
+    </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Skillify | Personalized Course Recommendations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Get personalized course recommendations based on your skill level, interests, and learning goals">
+    <meta name="keywords" content="courses, learning, skills, recommendations, AI, education">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="indexcss.css">
+    
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading Skillify...</div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" aria-label="Main navigation">
+        <h2><i class="fas fa-graduation-cap" aria-hidden="true"></i> Skillify</h2>
+        <ul>
+            <li><a href="index.html" aria-current="page"><i class="fas fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="recommendation.html"><i class="fas fa-magic" aria-hidden="true"></i> Get Recommendation</a></li>
+            <li><a href="#features"><i class="fas fa-star" aria-hidden="true"></i> Features</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero" aria-labelledby="main-heading">
+        <h1 id="main-heading">Personalized Course Recommendations for Your Career</h1>
+        <p>
+            Get the best courses based on your <strong>skill level</strong>,
+            <strong>area of interest</strong>, and <strong>learning goals</strong>.
+        </p>
+
+        <a href="recommendation.html" class="btn" aria-label="Get started with personalized recommendations">
+            Get Started <i class="fas fa-arrow-right" aria-hidden="true"></i>
+        </a>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="features" id="features" aria-labelledby="features-heading">
+        <h2 id="features-heading" class="section-heading">How It Works</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-signal" aria-hidden="true"></i>
+                </div>
+                <h3>Choose Skill Level</h3>
+                <p>
+                    Select whether you are a beginner, intermediate, or advanced learner.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart" aria-hidden="true"></i>
+                </div>
+                <h3>Select Interest</h3>
+                <p>
+                    Web Development, AI, Data Science, Cyber Security, Cloud & more.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bullseye" aria-hidden="true"></i>
+                </div>
+                <h3>Set Your Goal</h3>
+                <p>
+                    Academic improvement, job preparation, skill upgrade, or certification.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY SECTION -->
+    <section class="features" aria-labelledby="benefits-heading">
+        <h2 id="benefits-heading" class="section-heading">Why Choose Skillify</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-check" aria-hidden="true"></i>
+                </div>
+                <h3>Personalized</h3>
+                <p>
+                    Every recommendation is customized to your profile.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-briefcase" aria-hidden="true"></i>
+                </div>
+                <h3>Career Focused</h3>
+                <p>
+                    Courses selected to match real-world industry requirements.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-layer-group" aria-hidden="true"></i>
+                </div>
+                <h3>All Levels</h3>
+                <p>
+                    Suitable for beginners to advanced professionals.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="stats" aria-label="Platform statistics">
+        <div class="stat-item">
+            <div class="stat-number" data-count="1000">0</div>
+            <div class="stat-label">Courses</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-count="50">0</div>
+            <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-count="95">0</div>
+            <div class="stat-label">Success Rate</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-count="24">0</div>
+            <div class="stat-label">Platforms</div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="hero" aria-labelledby="cta-heading">
+        <h1 id="cta-heading">Ready to Find the Right Course?</h1>
+        <p>
+            Start now and get instant course recommendations tailored just for you.
+        </p>
+
+        <a href="recommendation.html" class="btn" aria-label="Start your personalized recommendation">
+            Start Recommendation <i class="fas fa-magic" aria-hidden="true"></i>
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            Made with <i class="fas fa-heart" aria-hidden="true"></i> by Skillify Team
+            <span class="divider">|</span>
+            <span id="current-year">2024</span>
+        </p>
+        <p class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="mailto:contact@skillify.com">Contact Us</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 500);
+        });
+
+        // Statistics counter
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Animate stats
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const stat = entry.target;
+                        const target = parseInt(stat.getAttribute('data-count'));
+                        let count = 0;
+                        const increment = target / 100;
+                        const timer = setInterval(() => {
+                            count += increment;
+                            if (count >= target) {
+                                count = target;
+                                clearInterval(timer);
+                            }
+                            stat.textContent = Math.floor(count) + (stat.getAttribute('data-count') === '95' ? '%' : '+');
+                        }, 20);
+                        observer.unobserve(stat);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            stats.forEach(stat => observer.observe(stat));
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="auth.js"></script>
+</body>
+</html>

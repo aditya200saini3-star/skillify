@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Recommendation | Skillify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Get personalized course recommendations based on your skill level, interests, and goals">
+    
+    <!-- Auth Script -->
+    <script src="auth.js"></script>
+    <script>auth.protectPage();</script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="recommendationcss.css">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Preparing Recommendations...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div style="display: flex; align-items: center; gap: 20px; flex: 1;">
+            <a href="index.html" class="back-home" style="text-decoration: none;">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <h2 style="margin: 0; flex: 1; text-align: left;">Skillify Recommendations</h2>
+        </div>
+        <ul style="list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; align-items: center;">
+            <!-- Auth injected by JS -->
+        </ul>
+    </nav>
+
+    <div class="form-container">
+        <h2>Get Personalized Course Recommendations</h2>
+        <p class="subtitle">
+            Select your skill level, interest, and learning goal
+        </p>
+
+        <!-- Progress Indicator -->
+        <div class="form-progress">
+            <div class="progress-step active">1</div>
+            <div class="progress-step">2</div>
+            <div class="progress-step">3</div>
+        </div>
+
+        <form id="recommendationForm" novalidate>
+            <!-- Skill Level -->
+            <div class="form-group">
+                <label for="skillLevel">
+                    <i class="fas fa-signal"></i> Skill Level
+                    <span class="required">*</span>
+                </label>
+                <select id="skillLevel" required>
+                    <option value="">Select skill level</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+                <div class="error-message" id="skillError"></div>
+            </div>
+
+            <!-- Interest -->
+            <div class="form-group">
+                <label for="interest">
+                    <i class="fas fa-heart"></i> Area of Interest
+                    <span class="required">*</span>
+                </label>
+                <select id="interest" required>
+                    <option value="">Select interest</option>
+                    <option value="web">Web Development</option>
+                    <option value="data">Data Science</option>
+                    <option value="ai">Artificial Intelligence</option>
+                    <option value="cyber">Cyber Security</option>
+                    <option value="cloud">Cloud Computing</option>
+                    <option value="mobile">Mobile App Development</option>
+                </select>
+                <div class="error-message" id="interestError"></div>
+            </div>
+
+            <!-- Goal -->
+            <div class="form-group">
+                <label for="goal">
+                    <i class="fas fa-bullseye"></i> Learning Goal
+                    <span class="required">*</span>
+                </label>
+                <select id="goal" required>
+                    <option value="">Select goal</option>
+                    <option value="academic">Academic Improvement</option>
+                    <option value="job">Job Preparation</option>
+                    <option value="skill">Skill Upgrade</option>
+                    <option value="certification">Certification</option>
+                </select>
+                <div class="error-message" id="goalError"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn">
+                <i class="fas fa-magic"></i> Generate Recommendations
+            </button>
+
+            <!-- Alternative Options -->
+            <div class="alternative-options">
+                <p>Not sure? <a href="#" id="randomSuggest">Get a random suggestion</a></p>
+                <p>Need help? <a href="#" id="showTips">View selection tips</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tips Modal -->
+    <div class="modal" id="tipsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Selection Tips</h3>
+            <ul>
+                <li><strong>Beginner:</strong> No prior experience needed</li>
+                <li><strong>Intermediate:</strong> Some experience, looking to deepen knowledge</li>
+                <li><strong>Advanced:</strong> Professional experience, seeking specialization</li>
+                <li><strong>Job Preparation:</strong> Courses with career support and certifications</li>
+                <li><strong>Skill Upgrade:</strong> Focus on practical, hands-on learning</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const form = document.getElementById('recommendationForm');
+        const skillSelect = document.getElementById('skillLevel');
+        const interestSelect = document.getElementById('interest');
+        const goalSelect = document.getElementById('goal');
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const progressSteps = document.querySelectorAll('.progress-step');
+        const randomSuggestBtn = document.getElementById('randomSuggest');
+        const tipsModal = document.getElementById('tipsModal');
+        const showTipsBtn = document.getElementById('showTips');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Random suggestions
+        const randomOptions = {
+            skill: ['beginner', 'intermediate', 'advanced'],
+            interest: ['web', 'data', 'ai', 'cyber', 'cloud', 'mobile'],
+            goal: ['academic', 'job', 'skill', 'certification']
+        };
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            
+            // Validate skill level
+            if (!skillSelect.value) {
+                document.getElementById('skillError').textContent = 'Please select your skill level';
+                isValid = false;
+            }
+            
+            // Validate interest
+            if (!interestSelect.value) {
+                document.getElementById('interestError').textContent = 'Please select your area of interest';
+                isValid = false;
+            }
+            
+            // Validate goal
+            if (!goalSelect.value) {
+                document.getElementById('goalError').textContent = 'Please select your learning goal';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Update progress indicator
+        function updateProgress() {
+            const selects = [skillSelect, interestSelect, goalSelect];
+            selects.forEach((select, index) => {
+                if (select.value) {
+                    progressSteps[index].classList.add('active');
+                } else {
+                    progressSteps[index].classList.remove('active');
+                }
+            });
+        }
+
+        // Get random suggestion
+        function getRandomSuggestion() {
+            skillSelect.value = randomOptions.skill[Math.floor(Math.random() * randomOptions.skill.length)];
+            interestSelect.value = randomOptions.interest[Math.floor(Math.random() * randomOptions.interest.length)];
+            goalSelect.value = randomOptions.goal[Math.floor(Math.random() * randomOptions.goal.length)];
+            updateProgress();
+        }
+
+        // Show loading screen
+        function showLoading() {
+            loadingScreen.classList.remove('hidden');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+        }
+
+        // Hide loading screen
+        function hideLoading() {
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                submitBtn.innerHTML = '<i class="fas fa-magic"></i> Generate Recommendations';
+                submitBtn.disabled = false;
+            }, 1000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 500);
+
+            // Update progress on change
+            [skillSelect, interestSelect, goalSelect].forEach(select => {
+                select.addEventListener('change', updateProgress);
+            });
+
+            // Random suggestion
+            randomSuggestBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                getRandomSuggestion();
+            });
+
+            // Tips modal
+            showTipsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                tipsModal.style.display = 'block';
+            });
+
+            closeModal.addEventListener('click', () => {
+                tipsModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === tipsModal) {
+                    tipsModal.style.display = 'none';
+                }
+            });
+        });
+
+        // Form submission - Backend API
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/api/recommend`, {
+                    method: 'POST',
+                    headers: auth.getHeaders(),
+                    body: JSON.stringify({
+                        skill: skillSelect.value,
+                        interest: interestSelect.value,
+                        goal: goalSelect.value
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('recommendData', JSON.stringify(data));
+                    window.location.href = 'result.html';
+                } else {
+                    const error = await response.json();
+                    alert(error.message || 'Recommendation failed. Using fallback.');
+                    // Fallback to old logic
+                    const selections = {
+                        skill: skillSelect.value,
+                        interest: interestSelect.value,
+                        goal: goalSelect.value,
+                        timestamp: new Date().toISOString()
+                    };
+                    localStorage.setItem('skillifySelections', JSON.stringify(selections));
+                    window.location.href = `result.html?skill=${skillSelect.value}&interest=${interestSelect.value}&goal=${goalSelect.value}`;
+                }
+            } catch (error) {
+                console.error('Backend unavailable:', error);
+                alert('Backend not running. Install Node.js, npm install, npm run dev');
+                // Fallback
+                const selections = {
+                    skill: skillSelect.value,
+                    interest: interestSelect.value,
+                    goal: goalSelect.value,
+                    timestamp: new Date().toISOString()
+                };
+                localStorage.setItem('skillifySelections', JSON.stringify(selections));
+                window.location.href = `result.html?skill=${skillSelect.value}&interest=${interestSelect.value}&goal=${goalSelect.value}`;
+            }
+        });
+
+        // Real-time validation
+        form.addEventListener('input', (e) => {
+            if (e.target.tagName === 'SELECT') {
+                const errorId = e.target.id + 'Error';
+                document.getElementById(errorId).textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
