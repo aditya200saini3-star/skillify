@@ -6,21 +6,79 @@
     min-height: 100vh;
     position: relative;
     z-index: 1;
+    overflow: hidden;
+}
+
+/* Background blob animations */
+.bg-shape {
+    position: absolute;
+    filter: blur(70px);
+    z-index: 0;
+    opacity: 0.5;
+    animation: floatBlobs 12s infinite alternate ease-in-out;
+}
+
+.shape-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    border-radius: 50%;
+    top: 5%;
+    left: 10%;
+}
+
+.shape-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--secondary-light);
+    border-radius: 50%;
+    bottom: -5%;
+    right: 5%;
+    animation-delay: -4s;
+}
+
+.shape-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--accent);
+    border-radius: 50%;
+    top: 40%;
+    left: 45%;
+    animation-duration: 18s;
+    opacity: 0.3;
+}
+
+@keyframes floatBlobs {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(50px, -50px) scale(1.1) rotate(20deg); }
 }
 
 .auth-container {
-    background: var(--card-bg);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
+    background: rgba(10, 25, 45, 0.4);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
-    width: 900px;
+    width: 950px;
     max-width: 90%;
-    min-height: 550px;
-    animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    min-height: 600px;
+    animation: authEntrance 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes authEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .form-container {
@@ -148,13 +206,13 @@
 }
 
 .auth-container input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--white-10);
-    padding: 12px 15px 12px 45px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 15px 14px 45px;
     width: 100%;
     border-radius: var(--radius-sm);
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 15px;
     transition: var(--transition);
     position: relative;
     z-index: 2;
@@ -162,9 +220,10 @@
 
 .auth-container input:focus {
     outline: none;
-    border-color: var(--primary-light);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 10px rgba(45, 157, 138, 0.2);
+    border-color: var(--accent);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 157, 0, 0.2);
+    transform: translateY(-2px);
 }
 
 .forgot-pass {
@@ -187,21 +246,39 @@
 }
 
 .auth-btn {
-    margin-top: 10px;
-    padding: 12px 45px;
-    font-size: 15px;
-    letter-spacing: 1px;
+    margin-top: 15px;
+    padding: 14px 50px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 30px;
+    border: none;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--accent), var(--warning));
+    background-size: 200% auto;
+    box-shadow: 0 8px 20px rgba(224, 135, 27, 0.4);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    text-transform: uppercase;
+}
+
+.auth-btn:hover {
+    background-position: right center;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(224, 135, 27, 0.6);
 }
 
 .ghost-btn {
     background: transparent !important;
     border: 2px solid var(--white) !important;
     box-shadow: none !important;
+    margin-top: 20px;
 }
 
 .ghost-btn:hover {
-    background: var(--white-10) !important;
-    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
 .overlay-container {
@@ -220,16 +297,16 @@
 }
 
 .overlay {
-    background: var(--button-gradient);
-    background-size: 200% 200%;
+    background: linear-gradient(-45deg, var(--primary), var(--secondary), var(--primary-light), var(--accent));
+    background-size: 400% 400%;
     color: var(--white);
     position: relative;
     left: -100%;
     height: 100%;
     width: 200%;
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
-    animation: gradientFlow 4s linear infinite;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    animation: gradientFlow 10s ease infinite;
 }
 
 .auth-container.right-panel-active .overlay {
@@ -242,26 +319,28 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 40px;
+    padding: 0 50px;
     text-align: center;
     top: 0;
     height: 100%;
     width: 50%;
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .overlay-panel h1 {
-    font-size: 36px;
+    font-size: 40px;
     font-weight: 800;
     margin-bottom: 20px;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .overlay-panel p {
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     margin-bottom: 30px;
     line-height: 1.6;
+    opacity: 0.9;
 }
 
 .overlay-left {
