@@ -139,6 +139,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 padding: 12px 0;
                 transition: all 0.3s ease;
                 opacity: 0.9;
+                white-space: nowrap;
             }
             .navbar ul li.auth-link a:hover {
                 opacity: 1;
