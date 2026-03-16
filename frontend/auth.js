@@ -90,7 +90,8 @@ const auth = {
         if (user) {
             const liUser = document.createElement('li');
             liUser.className = 'auth-link';
-            liUser.innerHTML = `<a href="#"><i class="fas fa-user-circle"></i> Hi, ${user.name.split(' ')[0]}</a>`;
+            const firstName = user.name ? user.name.split(' ')[0] : 'User';
+            liUser.innerHTML = `<a href="#"><i class="fas fa-user-circle"></i> Hi, ${firstName}</a>`;
 
             const liLogout = document.createElement('li');
             liLogout.className = 'auth-link';
@@ -110,7 +111,7 @@ const auth = {
         const token = this.getToken();
         const path = window.location.pathname;
         const isPublicPage = path === '/' || path.includes('index.html') || path.includes('login.html');
-        
+
         if (!token && !isPublicPage) {
             window.location.href = 'login.html';
         } else if (token) {
@@ -148,7 +149,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.head.appendChild(style);
     }
 
+    // Update navbar immediately based on local storage so UI doesn't hang
+    auth.updateNavbar();
+
+    // Protect page and refresh user data (may take time if backend is asleep)
     await auth.protectPage();
+
+    // Update navbar again in case user data changed
     auth.updateNavbar();
 });
 
