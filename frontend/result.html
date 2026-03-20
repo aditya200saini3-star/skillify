@@ -33,56 +33,72 @@
     <div class="container" style="padding-top: 100px;">
         <h1>🎯 Your Personalized Course Recommendations</h1>
 
-        <div class="summary" id="summaryText">Loading recommendations...</div>
+        <div class="dashboard-layout">
+            <!-- Left Sidebar: Analysis -->
+            <aside class="sidebar" id="dashboardSidebar" style="display: none;">
+                <div class="dashboard-card chart-card reveal">
+                    <div class="dashboard-header">
+                        <h3><i class="fas fa-chart-pie"></i> Skill Analysis</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="skillRadar"></canvas>
+                    </div>
+                </div>
 
+                <div class="dashboard-card explanation-card reveal" style="transition-delay: 100ms;">
+                    <div class="dashboard-header">
+                        <h3><i class="fas fa-info-circle"></i> Understanding Fit</h3>
+                    </div>
+                    <div class="course-details" style="background: transparent; border: none; padding: 0;">
+                        <p style="font-size: 0.85rem; margin-bottom: 12px; color: var(--text-primary);">6 key vectors of alignment:</p>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-layer-group"></i> <strong>Tech Depth</strong></li>
+                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-hammer"></i> <strong>Practicality</strong></li>
+                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-network-wired"></i> <strong>Industry Net</strong></li>
+                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-brain"></i> <strong>Complexity</strong></li>
+                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-lightbulb"></i> <strong>Innovation</strong></li>
+                            <li style="font-size: 0.8rem;"><i class="fas fa-bullseye"></i> <strong>Fit Acc.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dashboard-card advice-card reveal" style="transition-delay: 200ms;">
+                    <div class="dashboard-header">
+                        <h3><i class="fas fa-lightbulb"></i> Strategic Advice</h3>
+                    </div>
+                    <div id="strategicAdviceList">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Main Content: Recommendations -->
+            <main class="main-content">
+                <p class="summary" id="summaryText">
+                    Loading your personalized analysis...
+                </p>
+
+                <!-- Loading State -->
+                <div class="loading" id="loadingState">Analyzing your preferences...</div>
+
+                <div id="recommendationsList" style="display: none;">
+                    <h2 class="gradient-text"><i class="fas fa-check-circle"></i> Direct Matches</h2>
+                    <div class="cards" id="resultCards"></div>
+
+                    <!-- AI Section -->
+                    <div class="ai-section">
+                        <div class="ai-header">
+                            <h2 class="gradient-text"><i class="fas fa-magic"></i> AI-Powered Growth Tracks</h2>
+                            <span class="ai-badge">Experimental</span>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px;">Exploring cross-domain opportunities based on your core interests.</p>
+                        <div class="cards" id="aiResultCards"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
         <!-- Results Statistics -->
         <div class="results-stats" id="resultsStats"></div>
-
-        <!-- Dashboard Section -->
-        <div class="dashboard-grid" id="dashboardSection" style="display: none;">
-            <div class="dashboard-card chart-card">
-                <div class="dashboard-header">
-                    <h3><i class="fas fa-chart-pie"></i> Skill-Match Analysis</h3>
-                </div>
-                <div class="chart-container">
-                    <canvas id="skillRadar"></canvas>
-                </div>
-            </div>
-            <div class="dashboard-card explanation-card">
-                <div class="dashboard-header">
-                    <h3><i class="fas fa-info-circle"></i> Understanding the Fit</h3>
-                </div>
-                <div class="course-details" style="background: transparent; border: none; padding: 0;">
-                    <p style="font-size: 0.9rem; margin-bottom: 12px; color: var(--text-primary);">Our AI evaluates your profile across 6 key vectors:</p>
-                    <div style="font-size: 0.85rem; margin-bottom: 10px;"><i class="fas fa-layer-group"></i> <strong>Tech Depth:</strong> Analysis of core architecture, theoretical foundations, and technical mastery.</div>
-                    <div style="font-size: 0.85rem; margin-bottom: 10px;"><i class="fas fa-hammer"></i> <strong>Practicality:</strong> Focus on hands-on labs, real-world scenarios, and building portfolio app components.</div>
-                    <div style="font-size: 0.85rem; margin-bottom: 10px;"><i class="fas fa-network-wired"></i> <strong>Industry Net:</strong> Direct correlation with high-demand job descriptions and corporate recruitment trends.</div>
-                    <div style="font-size: 0.85rem; margin-bottom: 10px;"><i class="fas fa-brain"></i> <strong>Complexity:</strong> Precision matching between your proficiency and the course's cognitive technical load.</div>
-                    <div style="font-size: 0.85rem; margin-bottom: 10px;"><i class="fas fa-lightbulb"></i> <strong>Innovation:</strong> Exposure to next-gen tools, disruptive methodologies, and future-forward standards.</div>
-                    <div style="font-size: 0.85rem;"><i class="fas fa-bullseye"></i> <strong>Fit Acc.:</strong> A comprehensive confidence metric based on comparative user success profile analysis.</div>
-                </div>
-            </div>
-            <div class="dashboard-card advice-card">
-                <div class="dashboard-header">
-                    <h3><i class="fas fa-lightbulb"></i> Strategic Advice</h3>
-                </div>
-                <div id="strategicAdviceList">
-                    <!-- Injected by JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Loading State -->
-        <div class="loading" id="loadingState">Analyzing your preferences...</div>
-
-        <h2 class="gradient-text"><i class="fas fa-check-circle"></i> Direct Matches</h2>
-        <div class="cards" id="resultCards"></div>
-
-        <!-- AI Section -->
-        <div class="ai-section">
-            <h2>🤖 AI-Powered Recommendations</h2>
-            <div class="cards" id="aiResultCards"></div>
-        </div>
 
         <!-- Action Buttons -->
         <div class="action-buttons">
@@ -136,8 +152,9 @@
                 return;
             }
 
-            // Show Dashboard
-            document.getElementById('dashboardSection').style.display = 'grid';
+            // Show Dashboard & Results
+            document.getElementById('dashboardSidebar').style.display = 'block';
+            document.getElementById('recommendationsList').style.display = 'block';
             initializeCharts(regular, ai, skill, interest, goal);
             generateAdvice(regular, ai, skill, goal);
 
