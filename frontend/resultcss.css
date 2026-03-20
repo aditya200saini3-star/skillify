@@ -877,28 +877,69 @@ h1 {
 
 .roadmap-step {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
 }
 
 .step-marker {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     position: absolute;
-    left: -35px;
+    left: -37px;
     top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    transition: var(--transition-fast);
 }
 
-.step-marker i { font-size: 10px; color: white; }
-.step-content h4 { margin: 0 0 5px 0; font-size: 1.05rem; color: #f8fafc; }
-.step-content p { margin: 0; font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
+.step-marker i { font-size: 11px; color: white; }
+
+.step-content h4 { margin: 0 0 5px 0; font-size: 1.1rem; color: #f8fafc; font-weight: 700; }
+.step-content p { margin: 0 0 15px 0; font-size: 0.9rem; color: #94a3b8; line-height: 1.5; }
+
+.sub-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 5px;
+}
+
+.sub-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--white-70);
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition-fast);
+}
+
+.sub-step:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+}
+
+.sub-step i {
+    font-size: 10px;
+    color: var(--white-30);
+}
+
+.roadmap-step:first-child .step-marker {
+    animation: markerPulse 2s infinite;
+}
+
+@keyframes markerPulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
 
 .vector-list { display: flex; flex-direction: column; gap: 15px; }
 .vector-item {

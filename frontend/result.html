@@ -181,20 +181,46 @@
             const container = document.getElementById('learningRoadmap');
             if (!container) return;
             
-            const steps = [
-                { title: 'Base Knowledge', desc: `Mastering ${skill} core pillars.`, icon: 'fa-layer-group', color: '#3b82f6' },
-                { title: 'Project Phase', desc: 'Building real-world applications.', icon: 'fa-code', color: '#8b5cf6' },
-                { title: 'Goal Mastery', desc: `Achieving "${goal}" expertise.`, icon: 'fa-check-circle', color: '#10b981' }
+            const phases = [
+                { 
+                    title: 'Phase 1: Precision Foundations', 
+                    desc: `Capping ${skill} gaps.`, 
+                    icon: 'fa-microscope', 
+                    color: '#3b82f6',
+                    subSteps: ['Core Architecture Review', 'Advanced Syntax Patterns', 'Tooling Setup']
+                },
+                { 
+                    title: 'Phase 2: Project Immersion', 
+                    desc: 'Applying theory to build.', 
+                    icon: 'fa-code-branch', 
+                    color: '#8b5cf6',
+                    subSteps: ['Feature Implementation', 'API Integration', 'Unit Testing']
+                },
+                { 
+                    title: 'Phase 3: Goal Realization', 
+                    desc: `Ready for "${goal}".`, 
+                    icon: 'fa-rocket', 
+                    color: '#10b981',
+                    subSteps: ['Performance Tuning', 'Deployment Strategy', 'Portfolio Review']
+                }
             ];
 
-            container.innerHTML = steps.map((s, i) => `
+            container.innerHTML = phases.map((p, i) => `
                 <div class="roadmap-step reveal" style="transition-delay: ${i * 150}ms">
-                    <div class="step-marker" style="background: ${s.color}">
-                        <i class="fas ${s.icon}"></i>
+                    <div class="step-marker" style="background: ${p.color}; box-shadow: 0 0 15px ${p.color}44;">
+                        <i class="fas ${p.icon}"></i>
                     </div>
                     <div class="step-content">
-                        <h4>${s.title}</h4>
-                        <p>${s.desc}</p>
+                        <h4>${p.title}</h4>
+                        <p>${p.desc}</p>
+                        <div class="sub-steps">
+                            ${p.subSteps.map(ss => `
+                                <div class="sub-step">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>${ss}</span>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 </div>
             `).join('');
