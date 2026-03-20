@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*', // Accept requests from deployed Netlify app or anywhere if not set
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    return callback(null, origin);
+  },
   credentials: true
 }));
 app.use(express.json());

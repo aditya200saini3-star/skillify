@@ -1,4 +1,5 @@
-const API_BASE = 'https://skillify-backend-b442.onrender.com'; // Update this URL after deploying your backend to Render
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+const API_BASE = isLocal ? 'http://localhost:5000' : 'https://skillify-backend-b442.onrender.com';
 const TOKEN_KEY = 'skillify_token';
 const USER_KEY = 'skillify_user';
 
