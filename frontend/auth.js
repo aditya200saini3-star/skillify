@@ -1,7 +1,7 @@
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
 const API_BASE = isLocal ? 'http://localhost:5000' : 'https://skillify-backend-b442.onrender.com';
-const TOKEN_KEY = 'skillify_token';
-const USER_KEY = 'skillify_user';
+const TOKEN_KEY = 'coursematch_token';
+const USER_KEY = 'coursematch_user';
 
 const auth = {
     async signup(name, email, password) {

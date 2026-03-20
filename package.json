@@ -1,5 +1,5 @@
 {
-  "name": "skillify-backend",
+  "name": "coursematch-backend",
   "version": "1.0.0",
   "description": "Backend for Personalized Course Recommendation app",
   "main": "backend/server.js",

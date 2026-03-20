@@ -10,7 +10,7 @@ const sendEmail = async (options) => {
   });
 
   const message = {
-    from: `Skillify Support <${process.env.EMAIL_USER}>`,
+    from: `CourseMatch Support <${process.env.EMAIL_USER}>`,
     to: options.email,
     subject: options.subject,
     text: options.message

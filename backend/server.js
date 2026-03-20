@@ -27,7 +27,7 @@ app.use(rateLimit({
 
 // Health check
 app.get('/', (req, res) => {
-  res.json({ message: 'Skillify Backend Ready! 🎯' });
+  res.json({ message: 'CourseMatch Backend Ready! 🎯' });
 });
 
 // Temporary seed route (Trigger via browser)
