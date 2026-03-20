@@ -35,69 +35,87 @@
     </nav>
     <div class="container" style="padding-top: 100px;">
 
-        <div class="dashboard-layout">
-            <!-- Left Sidebar: Analysis -->
-            <aside class="sidebar" id="dashboardSidebar" style="display: none;">
-                <div class="dashboard-card chart-card reveal">
-                    <div class="dashboard-header">
-                        <h3><i class="fas fa-chart-pie"></i> Skill Analysis</h3>
+        <!-- Tab Navigation (Mobile Bottom Nav) -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="switchTab('analysis')">
+                <i class="fas fa-chart-line"></i>
+                <span>Analysis</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('matches')">
+                <i class="fas fa-list-ul"></i>
+                <span>Matches</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('growth')">
+                <i class="fas fa-rocket"></i>
+                <span>Growth</span>
+            </button>
+        </nav>
+
+        <div class="results-container">
+            <!-- Analysis Tab -->
+            <section id="tab-analysis" class="tab-content active" style="display: none;">
+                <div class="analysis-grid">
+                    <div class="dashboard-card chart-card reveal">
+                        <div class="dashboard-header">
+                            <h3><i class="fas fa-chart-pie"></i> Skill Profile</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="skillRadar"></canvas>
+                        </div>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="skillRadar"></canvas>
+
+                    <!-- Roadmap Component -->
+                    <div class="dashboard-card roadmap-card reveal" style="transition-delay: 100ms;">
+                        <div class="dashboard-header">
+                            <h3><i class="fas fa-map-signs"></i> Learning Roadmap</h3>
+                        </div>
+                        <div class="roadmap-timeline" id="learningRoadmap">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card explanation-card reveal" style="transition-delay: 200ms;">
+                        <div class="dashboard-header">
+                            <h3><i class="fas fa-info-circle"></i> Vector Analysis</h3>
+                        </div>
+                        <div class="vector-list">
+                            <div class="vector-item"><strong>Tech Depth:</strong> Architecture & Mastery</div>
+                            <div class="vector-item"><strong>Practicality:</strong> Project-Based Score</div>
+                            <div class="vector-item"><strong>Industry Net:</strong> Market Alignment</div>
+                            <div class="vector-item"><strong>Complexity:</strong> Skill Level Sync</div>
+                            <div class="vector-item"><strong>Innovation:</strong> Future-Tech Focus</div>
+                            <div class="vector-item"><strong>Fit Acc.:</strong> Profile Confidence</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card advice-card reveal" style="transition-delay: 300ms;">
+                        <div class="dashboard-header">
+                            <h3><i class="fas fa-award"></i> Career Advice</h3>
+                        </div>
+                        <div id="strategicAdviceList"></div>
                     </div>
                 </div>
+            </section>
 
-                <div class="dashboard-card explanation-card reveal" style="transition-delay: 100ms;">
-                    <div class="dashboard-header">
-                        <h3><i class="fas fa-info-circle"></i> Understanding Fit</h3>
-                    </div>
-                    <div class="course-details" style="background: transparent; border: none; padding: 0;">
-                        <p style="font-size: 0.85rem; margin-bottom: 12px; color: var(--text-primary);">6 key vectors of alignment:</p>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-layer-group"></i> <strong>Tech Depth</strong></li>
-                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-hammer"></i> <strong>Practicality</strong></li>
-                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-network-wired"></i> <strong>Industry Net</strong></li>
-                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-brain"></i> <strong>Complexity</strong></li>
-                            <li style="font-size: 0.8rem; margin-bottom: 6px;"><i class="fas fa-lightbulb"></i> <strong>Innovation</strong></li>
-                            <li style="font-size: 0.8rem;"><i class="fas fa-bullseye"></i> <strong>Fit Acc.</strong></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="dashboard-card advice-card reveal" style="transition-delay: 200ms;">
-                    <div class="dashboard-header">
-                        <h3><i class="fas fa-lightbulb"></i> Strategic Advice</h3>
-                    </div>
-                    <div id="strategicAdviceList">
-                        <!-- Injected by JS -->
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Right Main Content: Recommendations -->
-            <main class="main-content">
-                <p class="summary" id="summaryText">
-                    Loading your personalized analysis...
-                </p>
-
-                <!-- Loading State -->
-                <div class="loading" id="loadingState">Analyzing your preferences...</div>
-
-                <div id="recommendationsList" style="display: none;">
+            <!-- Matches Tab -->
+            <section id="tab-matches" class="tab-content" style="display: none;">
+                <div class="section-container">
                     <h2 class="gradient-text"><i class="fas fa-check-circle"></i> Direct Matches</h2>
                     <div class="cards" id="resultCards"></div>
-
-                    <!-- AI Section -->
-                    <div class="ai-section">
-                        <div class="ai-header">
-                            <h2 class="gradient-text"><i class="fas fa-magic"></i> AI-Powered Growth Tracks</h2>
-                            <span class="ai-badge">Experimental</span>
-                        </div>
-                        <p style="color: var(--text-secondary); margin-bottom: 25px;">Exploring cross-domain opportunities based on your core interests.</p>
-                        <div class="cards" id="aiResultCards"></div>
-                    </div>
                 </div>
-            </main>
+            </section>
+
+            <!-- Growth Tab -->
+            <section id="tab-growth" class="tab-content" style="display: none;">
+                <div class="section-container">
+                    <div class="ai-header">
+                        <h2 class="gradient-text"><i class="fas fa-magic"></i> AI Growth Tracks</h2>
+                        <span class="ai-badge">Personalized</span>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-bottom: 25px; text-align: center;">Exploring cross-domain opportunities for your profile.</p>
+                    <div class="cards" id="aiResultCards"></div>
+                </div>
+            </section>
         </div>
         <!-- Results Statistics -->
         <div class="results-stats" id="resultsStats"></div>
@@ -129,6 +147,55 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="auth.js"></script>
     <script>
+        // Mobile tab switching logic
+        function switchTab(tabId) {
+            // Update Buttons
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            // Find the button that was clicked or matching tabId
+            const btn = document.querySelector(`.nav-item[onclick*="${tabId}"]`);
+            if (btn) btn.classList.add('active');
+
+            // Update Content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            });
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) {
+                activeTab.style.display = 'block';
+                setTimeout(() => activeTab.classList.add('active'), 10);
+            }
+
+            // Sync stats visibility - only show on analysis tab
+            const stats = document.getElementById('resultsStats');
+            if (stats) stats.style.display = tabId === 'analysis' ? 'flex' : 'none';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function generateRoadmap(skill, goal) {
+            const container = document.getElementById('learningRoadmap');
+            if (!container) return;
+            
+            const steps = [
+                { title: 'Base Knowledge', desc: `Mastering ${skill} core pillars.`, icon: 'fa-layer-group', color: '#3b82f6' },
+                { title: 'Project Phase', desc: 'Building real-world applications.', icon: 'fa-code', color: '#8b5cf6' },
+                { title: 'Goal Mastery', desc: `Achieving "${goal}" expertise.`, icon: 'fa-check-circle', color: '#10b981' }
+            ];
+
+            container.innerHTML = steps.map((s, i) => `
+                <div class="roadmap-step reveal" style="transition-delay: ${i * 150}ms">
+                    <div class="step-marker" style="background: ${s.color}">
+                        <i class="fas ${s.icon}"></i>
+                    </div>
+                    <div class="step-content">
+                        <h4>${s.title}</h4>
+                        <p>${s.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
         // Enhanced result page with backend support
         async function loadResults() {
             document.getElementById('loadingState').style.display = 'block';
@@ -154,11 +221,11 @@
                 return;
             }
 
-            // Show Dashboard & Results
-            document.getElementById('dashboardSidebar').style.display = 'block';
-            document.getElementById('recommendationsList').style.display = 'block';
+            // Show Initial Tab
+            switchTab('analysis'); 
             initializeCharts(regular, ai, skill, interest, goal);
             generateAdvice(regular, ai, skill, goal);
+            generateRoadmap(skill, goal);
 
             // Hide loading
             document.getElementById('loadingState').style.display = 'none';
