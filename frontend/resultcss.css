@@ -253,6 +253,29 @@ h1 {
     transition: var(--transition);
 }
 
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-page-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white-70);
+    border-left: 1px solid var(--white-20);
+    padding-left: 20px;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.01em;
+}
+
+@media (max-width: 900px) {
+    .nav-page-title {
+        display: none; /* Hide on tablets/mobile for clean navbar */
+    }
+}
+
 .navbar ul {
     list-style: none;
     display: flex;
