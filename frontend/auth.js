@@ -111,7 +111,11 @@ const auth = {
     async protectPage() {
         const token = this.getToken();
         const path = window.location.pathname;
-        const isPublicPage = path === '/' || path.includes('index.html') || path.includes('login.html') || path.includes('forgot-password.html') || path.includes('reset-password.html');
+        const isPublicPage = path === '/' || 
+                             path.includes('index') || 
+                             path.includes('login') || 
+                             path.includes('forgot-password') || 
+                             path.includes('reset-password');
 
         if (!token && !isPublicPage) {
             window.location.href = 'login.html';
