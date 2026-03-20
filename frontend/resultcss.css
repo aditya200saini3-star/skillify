@@ -452,7 +452,7 @@ h1 {
 /* Dashboard & Charts */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     margin-bottom: 50px;
     animation: fadeInUp 0.8s ease-out 0.3s both;

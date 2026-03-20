@@ -43,10 +43,21 @@
             <div class="dashboard-card chart-card">
                 <div class="dashboard-header">
                     <h3><i class="fas fa-chart-pie"></i> Skill-Match Analysis</h3>
-                    <span class="badge-premium">Live Analysis</span>
                 </div>
                 <div class="chart-container">
                     <canvas id="skillRadar"></canvas>
+                </div>
+            </div>
+            <div class="dashboard-card explanation-card">
+                <div class="dashboard-header">
+                    <h3><i class="fas fa-info-circle"></i> Understanding the Fit</h3>
+                </div>
+                <div class="course-details" style="background: transparent; border: none; padding: 0;">
+                    <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--text-primary);">Our AI evaluates your profile across 6 key vectors:</p>
+                    <div style="font-size: 0.85rem;"><i class="fas fa-layer-group"></i> <strong>Tech Depth:</strong> Depth of core concepts.</div>
+                    <div style="font-size: 0.85rem;"><i class="fas fa-hammer"></i> <strong>Practicality:</strong> Project-based learning score.</div>
+                    <div style="font-size: 0.85rem;"><i class="fas fa-network-wired"></i> <strong>Industry Net:</strong> Alignment with job markets.</div>
+                    <div style="font-size: 0.85rem;"><i class="fas fa-brain"></i> <strong>Complexity:</strong> Matches your Skill Level.</div>
                 </div>
             </div>
             <div class="dashboard-card advice-card">
@@ -165,6 +176,7 @@
                         <div style="margin-top: auto; padding-top: 20px;">
                             <span class="tag">${course.level || skill}</span>
                             <span class="tag">${course.category || interest}</span>
+                            <span class="tag">${course.goal || goal}</span>
                         </div>
                         <a href="${course.link || '#'}" target="_blank" class="action-btn" style="margin-top: 15px; display: inline-block; width: 100%; justify-content: center;">
                             <i class="fas fa-external-link-alt"></i> View Course
@@ -211,12 +223,12 @@
                     <span class="label">Growth Slots</span>
                 </div>
                 <div class="stat-box">
-                    <span class="number">${skill?.toUpperCase()}</span>
-                    <span class="label">Current Level</span>
+                    <span class="number" style="font-size: 1.2rem; min-height: 4rem; display: flex; align-items: center; justify-content: center;">${interest?.toUpperCase()}</span>
+                    <span class="label">Area of Interest</span>
                 </div>
                 <div class="stat-box">
-                    <span class="number">${stats.aiCount > 0 ? 'Optimal' : 'Standard'}</span>
-                    <span class="label">Fit Quality</span>
+                    <span class="number">${skill?.toUpperCase()}</span>
+                    <span class="label">Current Level</span>
                 </div>`;
         }
 
