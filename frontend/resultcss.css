@@ -146,10 +146,11 @@ body::before {
     z-index: 1;
 }
 
-lot {
+.gradient-text {
     background: linear-gradient(135deg, var(--accent-light), var(--primary-lighter));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 h1 {
@@ -166,12 +167,23 @@ h1 {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .summary {
@@ -387,7 +399,7 @@ h1 {
     border: 1px solid rgba(255, 157, 0, 0.3);
 }
 
-/* AI Section */
+/* AI Section & Insights */
 .ai-section {
     margin-top: 60px;
     padding-top: 40px;
@@ -417,6 +429,74 @@ h1 {
     right: 20px;
     font-size: 24px;
     opacity: 0.5;
+}
+
+.ai-insight-badge {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--primary-lighter);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+}
+
+.ai-insight-badge i {
+    margin-top: 2px;
+}
+
+/* Dashboard & Charts */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 50px;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.dashboard-card {
+    background: var(--card-gradient);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow-card);
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-header {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--white);
+}
+
+.badge-premium {
+    background: var(--button-gradient);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
 /* Results Stats */
