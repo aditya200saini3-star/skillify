@@ -2,14 +2,46 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+
+const logFile = path.join(__dirname, 'connection.log');
+function log(msg) {
+  const timestamp = new Date().toISOString();
+  fs.appendFileSync(logFile, `[${timestamp}] ${msg}\n`);
+}
+
+log('Server starting...');
+log('MONGODB_URI exists: ' + !!process.env.MONGODB_URI);
+
+console.log('Environment Loaded. MONGODB_URI exists:', !!process.env.MONGODB_URI);
+if (process.env.MONGODB_URI) {
+  const maskedUri = process.env.MONGODB_URI.replace(/:([^@]+)@/, ':****@');
+  console.log('Connecting to:', maskedUri);
+}
 
 const authRoutes = require('./routes/auth');
 const recommendRoutes = require('./routes/recommend');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Enable Mongoose debug mode
+mongoose.set('debug', true);
+
+// MongoDB Connection (Moved to Top)
+log('Attempting MongoDB connection...');
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    log('✅ MongoDB Connected Successfully');
+    log('Database Name: ' + mongoose.connection.name);
+  })
+  .catch(err => {
+    log('❌ MongoDB Connection Error');
+    log(err.message);
+  });
 
 // Middleware
 app.use(cors({
@@ -47,11 +79,6 @@ app.get('/seed', async (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/recommend', recommendRoutes);
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.error('❌ MongoDB Error:', err));
 
 // 404 Handler
 app.use('*', (req, res) => {
