@@ -80,31 +80,41 @@ const auth = {
         }
     },
 
-    updateNavbar() {
+    updateNavbar(config = {}) {
         const user = this.getCurrentUser();
         const navUl = document.querySelector('.navbar ul');
         if (!navUl) return;
+        
+        const { hideHome = false, hideLogout = false, showBackToHome = false } = config;
 
-        // Clear existing auth links
-        document.querySelectorAll('.auth-link').forEach(el => el.remove());
+        // Clear existing auth links and any custom home/back links
+        document.querySelectorAll('.auth-link, .custom-nav-link').forEach(el => el.remove());
 
         if (user) {
             const liUser = document.createElement('li');
             liUser.className = 'auth-link';
             const firstName = user.name ? user.name.split(' ')[0] : 'User';
             liUser.innerHTML = `<a href="#"><i class="fas fa-user-circle"></i> Hi, ${firstName}</a>`;
-
-            const liLogout = document.createElement('li');
-            liLogout.className = 'auth-link';
-            liLogout.innerHTML = `<a href="#" onclick="auth.logout(); auth.updateNavbar(); window.location.reload();"><i class="fas fa-sign-out-alt"></i> Logout</a>`;
-
             navUl.appendChild(liUser);
-            navUl.appendChild(liLogout);
-        } else {
+
+            if (!hideLogout) {
+                const liLogout = document.createElement('li');
+                liLogout.className = 'auth-link';
+                liLogout.innerHTML = `<a href="#" onclick="auth.logout(); auth.updateNavbar(); window.location.reload();"><i class="fas fa-sign-out-alt"></i> Logout</a>`;
+                navUl.appendChild(liLogout);
+            }
+        } else if (!config.hideAuth) {
             const liLogin = document.createElement('li');
             liLogin.className = 'auth-link';
             liLogin.innerHTML = `<a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>`;
             navUl.appendChild(liLogin);
+        }
+
+        if (showBackToHome) {
+            const liBack = document.createElement('li');
+            liBack.className = 'custom-nav-link';
+            liBack.innerHTML = `<a href="index.html"><i class="fas fa-home"></i> Back to Home</a>`;
+            navUl.appendChild(liBack);
         }
     },
 
@@ -156,13 +166,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Update navbar immediately based on local storage so UI doesn't hang
-    auth.updateNavbar();
+    auth.updateNavbar(window.navbarConfig || {});
 
     // Protect page and refresh user data (may take time if backend is asleep)
     await auth.protectPage();
 
     // Update navbar again in case user data changed
-    auth.updateNavbar();
+    auth.updateNavbar(window.navbarConfig || {});
 });
 
 // Global logout handler

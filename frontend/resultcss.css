@@ -982,12 +982,40 @@ h1 {
 /* Updated Responsive Design */
 @media (max-width: 900px) {
     .bottom-nav { display: flex; }
-    .navbar { width: 100%; border-radius: 0; top: 0; padding: 15px 20px; }
+    .navbar { width: 100%; border-radius: 0; top: 0; padding: 12px 20px; }
     .nav-page-title { display: none; }
     .container { padding-top: 80px; padding-bottom: 120px; }
     .results-stats { flex-direction: column; padding: 0 10px; }
     .stat-box { width: 100%; min-width: 0; }
     .analysis-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .navbar { 
+        padding: 8px 15px;
+        justify-content: space-between;
+    }
+    .nav-brand h2 { 
+        font-size: 16px !important; 
+        white-space: nowrap;
+    }
+    .nav-brand h2 i { font-size: 14px; }
+    .navbar ul { 
+        gap: 8px; 
+    }
+    .navbar ul li a { 
+        font-size: 0.75rem; 
+        padding: 5px 0 !important;
+    }
+    .navbar ul li a i { font-size: 1rem; }
+}
+
+@media (max-width: 400px) {
+    .navbar { padding: 6px 10px; }
+    .nav-brand h2 { font-size: 14px !important; }
+    .navbar ul { gap: 5px; }
+    .navbar ul li a { font-size: 0.65rem; }
+    .navbar ul li a i { font-size: 0.9rem; }
 }
 
 @media (min-width: 901px) {

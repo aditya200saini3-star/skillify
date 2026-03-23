@@ -29,7 +29,6 @@
             <h1 class="nav-page-title">Your Personalized Recommendations</h1>
         </div>
         <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
             <!-- Auth injected by JS -->
         </ul>
     </nav>
@@ -123,9 +122,6 @@
             <a href="#" class="action-btn save" id="saveResults">
                 <i class="fas fa-bookmark"></i> Save Results
             </a>
-            <a href="#" class="action-btn share" id="shareResults">
-                <i class="fas fa-share-alt"></i> Share Results
-            </a>
             <a href="recommendation.html" class="action-btn">
                 <i class="fas fa-redo"></i> Try Again
             </a>
@@ -143,6 +139,9 @@
 
     <!-- Backend API + Axios + Auth -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        window.navbarConfig = { hideLogout: true };
+    </script>
     <script src="auth.js"></script>
     <script>
         // Mobile tab switching logic
@@ -440,20 +439,10 @@
             setTimeout(() => document.getElementById('confirmationToast').style.display = 'none', 3000);
         };
 
-        document.getElementById('shareResults').onclick = async () => {
-            const text = `CourseMatch Recommendations\nSkill: ${skill}\nInterest: ${interest}\nGoal: ${goal}`;
-            if (navigator.share) {
-                await navigator.share({ title: 'My CourseMatch Results', text });
-            } else if (navigator.clipboard) {
-                await navigator.clipboard.writeText(text);
-                document.getElementById('confirmationToast').textContent = 'Copied!';
-                document.getElementById('confirmationToast').style.display = 'block';
-                setTimeout(() => document.getElementById('confirmationToast').style.display = 'none', 3000);
-            }
-        };
+
 
         // Init
-        auth.updateNavbar();
+        auth.updateNavbar(window.navbarConfig);
         loadResults();
     </script>
 </body>
