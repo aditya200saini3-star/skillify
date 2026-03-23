@@ -290,9 +290,14 @@
                             <span class="tag">${course.category || interest}</span>
                             <span class="tag">${course.goal || goal}</span>
                         </div>
-                        <a href="${course.link || '#'}" target="_blank" class="action-btn" style="margin-top: 15px; display: inline-block; width: 100%; justify-content: center;">
+                        ${course.link && course.link !== '#' ? `
+                        <a href="${course.link}" target="_blank" class="action-btn" style="margin-top: 15px; display: inline-block; width: 100%; justify-content: center;">
                             <i class="fas fa-external-link-alt"></i> View Course
-                        </a>`;
+                        </a>` : `
+                        <div class="ai-insight-badge" style="background: rgba(239, 68, 68, 0.1); margin-top: 15px;">
+                            <i class="fas fa-exclamation-triangle" style="color: #ef4444"></i>
+                            <span>Link currently unavailable</span>
+                        </div>`}`;
                     resultCards.appendChild(card);
                 });
             }
@@ -316,9 +321,14 @@
                             <div><i class="fas fa-star" style="color: #ff9d00"></i> ${course.rating ? course.rating.toFixed(1) : 'N/A'}/5</div>
                             <div><i class="fas fa-chart-line"></i> Match Score: ${course.score || 95}%</div>
                         </div>
-                        <a href="${course.link || '#'}" target="_blank" class="action-btn" style="margin-top: auto; display: inline-block; width: 100%; justify-content: center;">
+                        ${course.link && course.link !== '#' ? `
+                        <a href="${course.link}" target="_blank" class="action-btn" style="margin-top: auto; display: inline-block; width: 100%; justify-content: center;">
                             <i class="fas fa-rocket"></i> Pursue Track
-                        </a>`;
+                        </a>` : `
+                        <div class="ai-insight-badge" style="background: rgba(239, 68, 68, 0.1); margin-top: auto;">
+                            <i class="fas fa-exclamation-triangle" style="color: #ef4444"></i>
+                            <span>Link currently unavailable</span>
+                        </div>`}`;
                     aiResultCards.appendChild(card);
                 });
             }

@@ -25,6 +25,7 @@ router.post('/', async (req, res) => {
     }).limit(50);
 
     const aiRecommendations = allCourses
+      .filter(course => course.link && course.link !== '#') // Defensive check
       .map(course => ({
         ...course._doc,
         score: calculateScore(course, skill, interest, goal)
