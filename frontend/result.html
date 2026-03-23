@@ -119,9 +119,6 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <a href="#" class="action-btn save" id="saveResults">
-                <i class="fas fa-bookmark"></i> Save Results
-            </a>
             <a href="recommendation.html" class="action-btn">
                 <i class="fas fa-redo"></i> Try Again
             </a>
@@ -135,7 +132,7 @@
     </div>
 
     <!-- Confirmation Toast -->
-    <div class="toast" id="confirmationToast">Results saved!</div>
+
 
     <!-- Backend API + Axios + Auth -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -430,14 +427,7 @@
             `).join('');
         }
 
-        // Save/Share (unchanged functionality)
-        document.getElementById('saveResults').onclick = () => {
-            localStorage.setItem('skillifySavedResults', JSON.stringify({
-                skill, interest, goal, timestamp: new Date().toISOString()
-            }));
-            document.getElementById('confirmationToast').style.display = 'block';
-            setTimeout(() => document.getElementById('confirmationToast').style.display = 'none', 3000);
-        };
+
 
 
 
